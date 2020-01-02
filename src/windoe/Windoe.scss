@@ -1,0 +1,46 @@
+.windoe {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+
+  .windoeToolbar {
+    flex: 0 0 24px;
+    height: 24px;
+    width: 100%;
+    background: #f00;
+    cursor: move;
+  }
+
+  .windoeContent {
+    flex: 1;
+    background: #fff;
+  }
+
+  .windoeResize {
+    position: absolute;
+
+    &.top, &.bottom {
+      width: calc(100% + 8px);
+      height: 4px;
+      left: -4px;
+      cursor: ns-resize;
+    }
+    &.top {
+      top: -4px;
+    }
+    &.bottom {
+      bottom: -4px;
+    }
+    &.left, &.right {
+      height: 100%;
+      width: 4px;
+      cursor: ew-resize;
+    }
+    &.left {
+      left: -4px;
+    }
+    &.right {
+      right: -4px;
+    }
+  }
+}

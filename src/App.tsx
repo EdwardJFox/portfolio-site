@@ -1,25 +1,12 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
+import { Desktop, Windoe, Toolbar } from './windoe';
 
 const App: React.FC = () => {
+  const [windoes, setWindoes] = useState([{ id: 1, title: 'About', position: { x: 0, y: 0 }, size: { width: 400, height: 300 } }]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Desktop height="100%" width="100%" windoes={windoes} updateWindoes={setWindoes} />
   );
 }
 
