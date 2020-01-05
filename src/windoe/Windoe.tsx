@@ -6,6 +6,7 @@ export interface WindoeProps {
   handleToolbarClick: any;
   handleToolbarRelease: any;
   handleResizeClick: any;
+  handleFocus: any;
 }
 
 const Windoe: React.FC<WindoeProps> = (props) => {
@@ -14,7 +15,8 @@ const Windoe: React.FC<WindoeProps> = (props) => {
       left: `${props.windoe.position.x}px`,
       top: `${props.windoe.position.y}px`,
       width: `${props.windoe.size.width}px`,
-      height: `${props.windoe.size.height}px` }}>
+      height: `${props.windoe.size.height}px` }}
+      onMouseDown={(e) => props.handleFocus(e, props.windoe)}>
 
       <div className="windoeResize top" onMouseDown={(e) => props.handleResizeClick(e, props.windoe, 'top')}></div>
       <div className="windoeResize bottom" onMouseDown={(e) => props.handleResizeClick(e, props.windoe, 'bottom')}></div>
