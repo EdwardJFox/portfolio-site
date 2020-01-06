@@ -85,10 +85,12 @@ const Desktop: React.FC<DesktopProps> = (props) => {
 
   function handleFocus(e: any, windoe: any) {
     const windoeIndex = props.windoes.indexOf(windoe);
-    let updatedWindoes = [ ...props.windoes ];
-    updatedWindoes.slice(windoeIndex, 1);
-    updatedWindoes.push(windoe);
-    props.updateWindoes(updatedWindoes);
+    if(windoeIndex > 0) {
+      let updatedWindoes = [ ...props.windoes ];
+      updatedWindoes.splice(windoeIndex, 1);
+      updatedWindoes.push(windoe);
+      props.updateWindoes(updatedWindoes);
+    }
   }
 
   function updateWindoeInState(windoe: any) {
@@ -104,21 +106,29 @@ const Desktop: React.FC<DesktopProps> = (props) => {
     let updatedWindoes = [ ...props.windoes ];
     updatedWindoes[windoeIndex].state = "opened";
     props.updateWindoes(updatedWindoes);
+  }
 
+  function handleWindoeClose(windoeType: any) {
+    const selectedWindow = props.windoes.find((windoe: any) => windoe.type == windoeType);
+    const windoeIndex = props.windoes.indexOf(selectedWindow);
+    let updatedWindoes = [ ...props.windoes ];
+    updatedWindoes[windoeIndex].state = "closed";
+    props.updateWindoes(updatedWindoes);
   }
 
   return (
     <div className="desktop" style={{ height: props.height, width: props.width }} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
-      <Icon position={{ x: 600, y: 600 }} icon="test" title="about" handleOnClick={() => handleIconClick('about')} />
-      <Icon position={{ x: 600, y: 600 }} icon="test" title="previous_work" handleOnClick={() => handleIconClick('previous_work')} />
-      <Icon position={{ x: 600, y: 600 }} icon="test" title="links" handleOnClick={() => handleIconClick('links')} />
+      <Icon position={{ x: 10, y: 10 }} icon={`${process.env.PUBLIC_URL}/images/icon_user.png`} title="About" handleOnClick={() => handleIconClick('about')} />
+      <Icon position={{ x: 10, y: 90 }} icon="missing" title="previous_work" handleOnClick={() => handleIconClick('previous_work')} />
+      <Icon position={{ x: 10, y: 190 }} icon={`${process.env.PUBLIC_URL}/images/icon_links.png`} title="Links" handleOnClick={() => handleIconClick('links')} />
       { props.windoes && props.windoes.map(
         (windoe: any) => windoe.state === 'opened' && <Windoe
           windoe={windoe}
           handleToolbarClick={handleMouseDown}
           handleToolbarRelease={handleMouseUp}
           handleResizeClick={handleResizeClick}
-          handleFocus={handleFocus} />
+          handleFocus={handleFocus}
+          handleWindoeClose={handleWindoeClose} />
       )}
     </div>
   );

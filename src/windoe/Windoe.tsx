@@ -7,6 +7,7 @@ export interface WindoeProps {
   handleToolbarRelease: any;
   handleResizeClick: any;
   handleFocus: any;
+  handleWindoeClose: any;
 }
 
 const Windoe: React.FC<WindoeProps> = (props) => {
@@ -25,7 +26,9 @@ const Windoe: React.FC<WindoeProps> = (props) => {
 
       <div className="windoeToolbar"
         onMouseDown={(e) => props.handleToolbarClick(e, props.windoe)}
-        onMouseUp={props.handleToolbarRelease}>Close</div>
+        onMouseUp={props.handleToolbarRelease}>
+        <div className="windoeCloseButton" onMouseUp={() => props.handleWindoeClose(props.windoe.type)}>Close</div>
+      </div>
       <div className="windoeContent">{ props.children }</div>
     </div>
   );

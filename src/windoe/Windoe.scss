@@ -9,6 +9,11 @@
     width: 100%;
     background: #f00;
     cursor: move;
+
+    .windoeCloseButton {
+      cursor: pointer;
+      display: inline-block;
+    }
   }
 
   .windoeContent {
