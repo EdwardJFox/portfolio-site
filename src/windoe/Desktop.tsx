@@ -12,28 +12,36 @@ const Desktop: React.FC<DesktopProps> = (props) => {
   const [windoes, setWindoes] = useState([]);
   const desktopRef = useRef(null);
 
-  function handleFocus(e: any, windoe: any) {
-    // const windoeIndex = props.windoes.indexOf(windoe);
-    // if(windoeIndex > 0) {
-    //   let updatedWindoes = [ ...props.windoes ];
-    //   updatedWindoes.splice(windoeIndex, 1);
-    //   updatedWindoes.push(windoe);
-    //   props.updateWindoes(updatedWindoes);
-    // }
+  function handleFocus(windoeType: string) {
+    const windoeIndex = getWindoeIndex(windoeType);
+    if(windoeIndex >= 0) {
+      let updatedWindoes = [ ...windoes ];
+      updatedWindoes.splice(windoeIndex, 1);
+      updatedWindoes.push(windoeType);
+      setWindoes(updatedWindoes);
+    }
   }
 
   function handleIconClick(windoeType: string) {
-    let updatedWindoes = [...windoes];
-    updatedWindoes.push({ windoeType })
-    setWindoes(updatedWindoes);
+    const windoeIndex = getWindoeIndex(windoeType);
+    if(windoeIndex === -1) {
+      let updatedWindoes = [ ...windoes ];
+      updatedWindoes.push(windoeType)
+      setWindoes(updatedWindoes);
+    }
   }
 
-  function handleWindoeClose(windoeType: any) {
-    // const selectedWindow = props.windoes.find((windoe: any) => windoe.type == windoeType);
-    // const windoeIndex = props.windoes.indexOf(selectedWindow);
-    // let updatedWindoes = [ ...props.windoes ];
-    // updatedWindoes[windoeIndex].state = "closed";
-    // props.updateWindoes(updatedWindoes);
+  function handleWindoeClose(windoeType: string) {
+    const windoeIndex = getWindoeIndex(windoeType);
+    if(windoeIndex >= 0) {
+      let updatedWindoes = [ ...windoes ];
+      updatedWindoes.splice(windoeIndex, 1);
+      setWindoes(updatedWindoes);
+    }
+  }
+
+  function getWindoeIndex(windoeType: string) {
+    return windoes.indexOf(windoeType);
   }
 
   return (
@@ -42,11 +50,12 @@ const Desktop: React.FC<DesktopProps> = (props) => {
       <Icon position={{ x: 10, y: 90 }} icon="missing" title="previous_work" handleOnClick={() => handleIconClick('previous_work')} />
       <Icon position={{ x: 10, y: 190 }} icon={`${process.env.PUBLIC_URL}/images/icon_links.png`} title="Links" handleOnClick={() => handleIconClick('links')} />
       { windoes && windoes.map(
-        (windoe: any) => <Windoe
-          windoe={windoe}
+        (windoeType: any) => <Windoe
+          windoeType={windoeType}
           handleFocus={handleFocus}
           handleClose={handleWindoeClose}
-          desktopRef={desktopRef} />
+          desktopRef={desktopRef}
+          key={windoeType} />
       )}
     </div>
   );

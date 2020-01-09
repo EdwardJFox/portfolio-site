@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Windoe.scss';
 
 export interface WindoeProps {
-  windoe: any;
+  windoeType: any;
   handleFocus: any;
   handleClose: any;
   desktopRef: any;
@@ -95,7 +95,7 @@ const Windoe: React.FC<WindoeProps> = (props) => {
       top: `${position.y}px`,
       width: `${size.width}px`,
       height: `${size.height}px` }}
-      onMouseDown={(e) => props.handleFocus(e, props.windoe)}>
+      onMouseDown={() => props.handleFocus(props.windoeType)}>
 
       <div className="windoeResize top" onMouseDown={(e) => handleResizeClick(e, 'top')}></div>
       <div className="windoeResize bottom" onMouseDown={(e) => handleResizeClick(e, 'bottom')}></div>
@@ -104,7 +104,8 @@ const Windoe: React.FC<WindoeProps> = (props) => {
 
       <div className="windoeToolbar"
         onMouseDown={handleToolbarClick}>
-        <div className="windoeCloseButton" onMouseUp={() => props.handleClose(props.windoe.type)}>Close</div>
+        <div className="windoeCloseButton" onMouseUp={() => props.handleClose(props.windoeType)}>Close</div>
+        <div className="windoeTitle">{ props.windoeType } </div>
       </div>
       <div className="windoeContent">{ props.children }</div>
     </div>
