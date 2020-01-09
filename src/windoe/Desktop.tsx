@@ -2,6 +2,9 @@ import React, { useState, useRef } from 'react';
 import './Desktop.scss';
 import Windoe from './Windoe';
 import Icon from './Icon';
+import About from '../pages/About';
+import PreviousWork from '../pages/PreviousWork';
+import Links from '../pages/Links';
 
 interface DesktopProps {
   height: string;
@@ -55,10 +58,26 @@ const Desktop: React.FC<DesktopProps> = (props) => {
           handleFocus={handleFocus}
           handleClose={handleWindoeClose}
           desktopRef={desktopRef}
-          key={windoeType} />
+          key={windoeType}>
+            { windoeContent()[windoeType]() }
+          </Windoe>
       )}
     </div>
   );
 }
 
 export default Desktop;
+
+function windoeContent(): any {
+  return {
+    about: function() {
+      return (<About />)
+    },
+    previous_work: function() {
+      return (<PreviousWork />)
+    },
+    links: function() {
+      return (<Links />)
+    }
+  }
+}
