@@ -55,7 +55,7 @@ const Windoe: React.FC<WindoeProps> = (props) => {
   }
 
   function handleResize(e: any) {
-    let updatedSize = { ...size };
+  let updatedSize = { ...size };
     let updatedPosition = { ...position };
 
     switch(resizeTypeRef.current){
@@ -104,8 +104,8 @@ const Windoe: React.FC<WindoeProps> = (props) => {
 
       <div className="windoeToolbar"
         onMouseDown={handleToolbarClick}>
-        <div className="windoeCloseButton" onMouseUp={() => props.handleClose(props.windoeType)}>Close</div>
-        <div className="windoeTitle">{ props.windoeType } </div>
+        <div className="windoeClose"><div className="windoeCloseButton" onMouseUp={() => props.handleClose(props.windoeType)}><div className="windoeCloseButtonInner"></div></div></div>
+        <div className="windoeTitle"><span>{ props.windoeType }</span></div>
       </div>
       <div className="windoeContent">{ props.children }</div>
     </div>

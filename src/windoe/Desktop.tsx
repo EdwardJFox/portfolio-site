@@ -70,14 +70,8 @@ export default Desktop;
 
 function windoeContent(): any {
   return {
-    about: function() {
-      return (<About />)
-    },
-    previous_work: function() {
-      return (<PreviousWork />)
-    },
-    links: function() {
-      return (<Links />)
-    }
+    about: () => <About />,
+    previous_work: () => <PreviousWork />,
+    links: () => <Links />
   }
 }

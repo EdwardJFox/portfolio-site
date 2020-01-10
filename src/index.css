@@ -18,6 +18,10 @@ body {
                                 supported by Chrome, Opera and Firefox */
 }
 
+* {
+  box-sizing: border-box;
+}
+
 @font-face {
   font-family: 'AmigaForever';
   src: url('./fonts/AmigaForever.eot?#iefix') format('embedded-opentype'),  url('./fonts/AmigaForever.woff') format('woff'), url('./fonts/AmigaForever.ttf')  format('truetype'), url('./fonts/AmigaForever.svg#AmigaForever') format('svg');

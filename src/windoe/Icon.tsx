@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Icon.scss';
 
 export interface IconProps {
@@ -14,7 +14,7 @@ const Icon: React.FC<IconProps> = (props) => {
       left: `${props.position.x}px`,
       top: `${props.position.y}px` }}
       onClick={props.handleOnClick}>
-      <img src={props.icon} />
+      <img src={props.icon} alt='' />
       <div className="iconText">{ props.title }</div>
     </div>
   );

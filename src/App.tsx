@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.scss';
-import { Desktop, Windoe, Toolbar } from './windoe';
+import { Desktop } from './windoe';
 
 const App: React.FC = () => {
   return (
