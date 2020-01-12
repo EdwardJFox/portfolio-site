@@ -9,8 +9,8 @@ export interface WindoeProps {
 }
 
 const Windoe: React.FC<WindoeProps> = (props) => {
-  const [position, setPosition] = useState({ x: 100, y: 100 });
-  const [size, setSize] = useState({ width: 400, height: 300 });
+  const [position, setPosition] = useState({ x: 200, y: 150 });
+  const [size, setSize] = useState({ width: 600, height: 450 });
   
   const beingDraggedRef = React.useRef(false);
   const beingResizedRef = React.useRef(false);
@@ -21,15 +21,29 @@ const Windoe: React.FC<WindoeProps> = (props) => {
 
   const handleMouseMove = (e: any) =>{
     if(beingDraggedRef.current) {
-      handleDragging(e);
+      handleDragging({ pageX: e.pageX, pageY: e.pageY });
     } else if(beingResizedRef.current) {
-      handleResize(e);
+      handleResize({ pageX: e.pageX, pageY: e.pageY });
+    }
+  }
+
+  const handleTouchMove = (e: any) =>{
+    if(beingDraggedRef.current) {
+      handleDragging({ pageX: e.changedTouches[0].pageX, pageY: e.changedTouches[0].pageY });
+    } else if(beingResizedRef.current) {
+      handleResize({ pageX: e.changedTouches[0].pageX, pageY: e.changedTouches[0].pageY });
     }
   }
 
   function handleToolbarClick(e: any) {
     beingDraggedRef.current = true;
     draggingStartPositionRef.current = ({ x: e.pageX, y: e.pageY });
+    previousPositionRef.current = position;
+  }
+
+  function handleToolbarTouch(e: any) {
+    beingDraggedRef.current = true;
+    draggingStartPositionRef.current = ({ x: e.changedTouches[0].pageX, y: e.changedTouches[0].pageY });
     previousPositionRef.current = position;
   }
 
@@ -41,7 +55,15 @@ const Windoe: React.FC<WindoeProps> = (props) => {
     previousPositionRef.current = position;
   }
 
-  function handleMouseRelease() {
+  function handleResizeTouch(e: any, resizeType: string) {
+    beingResizedRef.current = true;
+    resizeTypeRef.current = resizeType;
+    draggingStartPositionRef.current = ({ x: e.changedTouches[0].pageX, y: e.changedTouches[0].pageY });
+    previousSizeRef.current = size;
+    previousPositionRef.current = position;
+  }
+
+  function handleToolbarRelease() {
     beingDraggedRef.current = false;
     beingResizedRef.current = false;
   }
@@ -81,11 +103,15 @@ const Windoe: React.FC<WindoeProps> = (props) => {
 
   useEffect(() => {
     props.desktopRef.current.addEventListener('mousemove', handleMouseMove);
-    props.desktopRef.current.addEventListener('mouseup', handleMouseRelease);
+    props.desktopRef.current.addEventListener('mouseup', handleToolbarRelease);
+    props.desktopRef.current.addEventListener('touchmove', handleTouchMove);
+    props.desktopRef.current.addEventListener('touchend', handleToolbarRelease);
 
     return () => {
       props.desktopRef.current.removeEventListener('mousemove', handleMouseMove);
-      props.desktopRef.current.removeEventListener('mouseup', handleMouseRelease);
+      props.desktopRef.current.removeEventListener('mouseup', handleToolbarRelease);
+      props.desktopRef.current.removeEventListener('touchmove', handleTouchMove);
+      props.desktopRef.current.removeEventListener('touchend', handleToolbarRelease);
     }
   }, [props.desktopRef, position, size]);
 
@@ -95,16 +121,24 @@ const Windoe: React.FC<WindoeProps> = (props) => {
       top: `${position.y}px`,
       width: `${size.width}px`,
       height: `${size.height}px` }}
-      onMouseDown={() => props.handleFocus(props.windoeType)}>
+      onMouseDown={() => props.handleFocus(props.windoeType)}
+      onTouchStart={() => props.handleFocus(props.windoeType)}>
 
-      <div className="windoeResize top" onMouseDown={(e) => handleResizeClick(e, 'top')}></div>
-      <div className="windoeResize bottom" onMouseDown={(e) => handleResizeClick(e, 'bottom')}></div>
-      <div className="windoeResize left" onMouseDown={(e) => handleResizeClick(e, 'left')}></div>
-      <div className="windoeResize right" onMouseDown={(e) => handleResizeClick(e, 'right')}></div>
+      <div className="windoeResize top" onMouseDown={(e) => handleResizeClick(e, 'top')} onTouchStart={(e) => handleResizeTouch(e, 'top')}></div>
+      <div className="windoeResize bottom" onMouseDown={(e) => handleResizeClick(e, 'bottom')} onTouchStart={(e) => handleResizeTouch(e, 'bottom')}></div>
+      <div className="windoeResize left" onMouseDown={(e) => handleResizeClick(e, 'left')} onTouchStart={(e) => handleResizeTouch(e, 'left')}></div>
+      <div className="windoeResize right" onMouseDown={(e) => handleResizeClick(e, 'right')} onTouchStart={(e) => handleResizeTouch(e, 'right')}></div>
 
       <div className="windoeToolbar"
-        onMouseDown={handleToolbarClick}>
-        <div className="windoeClose"><div className="windoeCloseButton" onMouseUp={() => props.handleClose(props.windoeType)}><div className="windoeCloseButtonInner"></div></div></div>
+        onMouseDown={handleToolbarClick}
+        onTouchStart={handleToolbarTouch}>
+        <div className="windoeClose">
+          <div className="windoeCloseButton"
+            onMouseUp={() => props.handleClose(props.windoeType)}
+            onTouchEnd={() => props.handleClose(props.windoeType)}>
+              <div className="windoeCloseButtonInner"></div>
+          </div>
+        </div>
         <div className="windoeTitle"><span>{ props.windoeType }</span></div>
       </div>
       <div className="windoeContent">{ props.children }</div>

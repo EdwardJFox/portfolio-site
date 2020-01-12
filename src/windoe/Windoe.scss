@@ -62,28 +62,30 @@
   .windoeResize {
     position: absolute;
 
+    $resize_handle_size: 8px;
+
     &.top, &.bottom {
-      width: calc(100% + 8px);
-      height: 4px;
-      left: -4px;
+      width: calc(100% + #{$resize_handle_size * 2});
+      height: $resize_handle_size;
+      left: -$resize_handle_size;
       cursor: ns-resize;
     }
     &.top {
-      top: -4px;
+      top: -$resize_handle_size;
     }
     &.bottom {
-      bottom: -4px;
+      bottom: -$resize_handle_size;
     }
     &.left, &.right {
       height: 100%;
-      width: 4px;
+      width: $resize_handle_size;
       cursor: ew-resize;
     }
     &.left {
-      left: -4px;
+      left: -$resize_handle_size;
     }
     &.right {
-      right: -4px;
+      right: -$resize_handle_size;
     }
   }
 }
