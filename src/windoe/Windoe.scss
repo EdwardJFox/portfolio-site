@@ -43,6 +43,9 @@
     }
 
     .windoeTitle {
+      display: flex;
+      align-items: center;
+
       span {
         color: #0056ad;
         font-family: 'AmigaForever';

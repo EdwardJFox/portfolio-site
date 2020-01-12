@@ -4,7 +4,13 @@ import { Desktop } from './windoe';
 
 const App: React.FC = () => {
   return (
-    <Desktop height="100%" width="100%" />
+    <div className="app">
+      <nav>
+        <div className="brand">EdwardJFox</div>
+        <div className="message">looking for neat things to work on</div>
+      </nav>
+      <Desktop height="100%" width="100%" />
+    </div>
   );
 }
 
