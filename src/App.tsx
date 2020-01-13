@@ -8,6 +8,7 @@ const App: React.FC = () => {
       <nav>
         <div className="brand">EdwardJFox</div>
         <div className="message">looking for neat things to work on</div>
+        <div className="versionbutton">Text Version</div>
       </nav>
       <Desktop height="100%" width="100%" />
     </div>
